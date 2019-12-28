@@ -20,6 +20,7 @@ public class TestMainClass {
         for (int i = 0; i < 10; i++) {
             a = methodAdd(a);
             a++;
+            a = 1443;
         }
 
         b = 1123;

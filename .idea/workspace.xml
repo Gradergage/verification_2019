@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="668be4b1-bbc4-44fd-bdf9-e629d7284b6a" name="Default Changelist" comment="" />
+    <list default="true" id="668be4b1-bbc4-44fd-bdf9-e629d7284b6a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestMainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/TestMainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/graphics/Visualizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/nodes/Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/CFG.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scheme/scheme.png" beforeDir="false" afterPath="$PROJECT_DIR$/scheme/scheme.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CFG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CFG.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +69,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1RGYkBhl88YebrpidyWVKMevL8N" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -145,11 +164,22 @@
       <workItem from="1571295325808" duration="10391000" />
       <workItem from="1577398880687" duration="19744000" />
       <workItem from="1577454875593" duration="1120000" />
-      <workItem from="1577508303405" duration="7093000" />
+      <workItem from="1577508303405" duration="10940000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -177,39 +177,48 @@ public class CFG {
         return result.toString();
     }
 
-    private CFG handleBlockStatements(CFG block, MutableGraph g, CFG parent) {
+    private CFG handleBlockStatements(CFG block, MutableGraph g, CFG parent, boolean connectFirstDashed) {
 
         CFG lastNode = parent;
+        boolean first = true;
         for (CFG n : block.getChildren()) {
             if (n.payload instanceof Token && ((Token) n.payload).getText().equals("return")) {
                 String name = extractStatementText(block, g);
                 block.node = mutNode(generateName()).add(Label.of(name.toString())).add(Shape.ELLIPSE);
                 block.returnStatement = true;
-                g.add(parent.node.addLink(block.node));
+                if (first && connectFirstDashed)
+                    parent.node.addLink(parent.node.linkTo(block.node).with(Style.DASHED));
+                else
+                    parent.node.addLink(parent.node.linkTo(block.node));
+                g.add(parent.node);
                 break;
             }
             if (n.payload.equals("blockStatement") || n.payload.equals("statementExpression")) {
                 if (lastNode.lastRoutes.size() > 1) {
-                    handleBlockStatement(n, g, null);
+                    handleBlockStatement(n, g, null, false);
                     for (CFG l : lastNode.lastRoutes)
                         if (!l.returnStatement)
                             g.add(l.node.addLink(n.node));
                 } else if (lastNode.lastRoutes.size() == 1) {
-                    handleBlockStatement(n, g, lastNode);
+                    handleBlockStatement(n, g, lastNode, false);
                     for (CFG l : lastNode.lastRoutes)
                         if (!l.returnStatement)
                             g.add(l.node.addLink(n.node));
                 } else {
-                    handleBlockStatement(n, g, lastNode);
+                    if (first && connectFirstDashed)
+                        handleBlockStatement(n, g, lastNode, true);
+                    else
+                        handleBlockStatement(n, g, lastNode, false);
                 }
 
                 lastNode = n;
             }
+            first = false;
         }
         return lastNode;
     }
 
-    private void handleBlockStatement(CFG block, MutableGraph g, CFG parent) {
+    private void handleBlockStatement(CFG block, MutableGraph g, CFG parent, boolean connectDashed) {
 
         for (CFG n : block.getChildren()) {
             if (n.payload instanceof Token) {
@@ -234,8 +243,13 @@ public class CFG {
 
                 block.node = mutNode(generateName()).add(Label.of(res));
                 block.node.add(Shape.RECTANGLE);
-                if (parent != null)
-                    g.add(parent.node.addLink(block.node));
+                if (parent != null) {
+                    if (connectDashed)
+                        parent.node.addLink(parent.node.linkTo(block.node).with(Style.DASHED));
+                    else
+                        parent.node.addLink(parent.node.linkTo(block.node));
+                    g.add(parent.node);
+                }
                 break;
             }
         }
@@ -264,7 +278,7 @@ public class CFG {
 
         for (CFG n : body.getChildren()) {
             if (n.payload instanceof String && n.payload.equals("blockStatements")) {
-                handleBlockStatements(n, g, method);
+                handleBlockStatements(n, g, method, false);
             }
         }
     }
@@ -289,7 +303,7 @@ public class CFG {
         block.node = mutNode(generateName()).add(Label.of(forName.toString())).add(Shape.HEXAGON);
         g.add(parent.node.addLink(block.node));
 
-        CFG lastNode = handleBlockStatements(body, g, block);
+        CFG lastNode = handleBlockStatements(body, g, block, false);
         g.add(lastNode.node.addLink(block.node));
     }
 
@@ -328,10 +342,10 @@ public class CFG {
         block.node = mutNode(generateName()).add(Label.of(forName.toString())).add(Shape.DIAMOND);
         if (parent != null)
             g.add(parent.node.addLink(block.node));
-        CFG trueRoute = handleBlockStatements(bodyTrue, g, block);
+        CFG trueRoute = handleBlockStatements(bodyTrue, g, block, false);
         CFG falseRoute = null;
         if (!shortIF) {
-            falseRoute = handleBlockStatements(bodyFalse, g, block);
+            falseRoute = handleBlockStatements(bodyFalse, g, block, true);
         }
         List<CFG> routes = new ArrayList<>();
         MutableNode end = mutNode(generateName()).add(Label.of("")).add(Shape.POINT);
@@ -344,14 +358,18 @@ public class CFG {
                 falseRoute.node.addLink(falseRoute.node.linkTo(end));
                 g.add(falseRoute.node);
             }
+//            if (bodyFalse!=null) {
+//                block.node.addLink(block.node.linkTo(bodyFalse.node).with(Style.DASHED));
+//                g.add(block.node);
+//            }
         } else {
-            block.node.addLink(block.node.linkTo(end));
+            block.node.addLink(block.node.linkTo(end).with(Style.DASHED));
             g.add(block.node);
         }
 
         block.node = end;
         block.lastRoutes = routes;
-        handle(block, g);
+        // handle(block, g);
     }
 
     private String generateName() {
