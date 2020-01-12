@@ -284,11 +284,26 @@ public class CFG {
     }
 
     private void handleLoopDeclaration(CFG block, MutableGraph g, CFG parent) {
-        StringJoiner forName = new StringJoiner("; ");
+        //  StringJoiner forName = new StringJoiner("; ");
+        MutableNode init = null;
+        MutableNode expression = null;
+        MutableNode update = null;
         CFG body = null;
         for (CFG n : block.getChildren()) {
-            if (n.payload instanceof String && !n.payload.equals("statement")) {
-                forName.add(extractStatementText(n, g));
+            if (n.payload instanceof String && n.payload.equals("forInit")) {
+                init = mutNode(generateName()).add(Label.of(extractStatementText(n, g)));
+                init.add(Shape.RECTANGLE);
+            }
+            if (n.payload instanceof String && n.payload.equals("expression")) {
+                expression = mutNode(generateName()).add(Label.of(extractStatementText(n, g)));
+                expression.add(Shape.DIAMOND);
+            }
+//            if (n.payload instanceof String && !n.payload.equals("statement")) {
+//                forName.add(extractStatementText(n, g));
+//            }
+            if (n.payload instanceof String && n.payload.equals("forUpdate")) {
+                update = mutNode(generateName()).add(Label.of(extractStatementText(n, g)));
+                update.add(Shape.RECTANGLE);
             }
             if (n.payload instanceof String && n.payload.equals("statement")) {
                 for (CFG e : n.getChildren()) {
@@ -299,12 +314,25 @@ public class CFG {
                 }
             }
         }
-        System.out.println(forName.toString());
-        block.node = mutNode(generateName()).add(Label.of(forName.toString())).add(Shape.HEXAGON);
-        g.add(parent.node.addLink(block.node));
+        //   block.node = init;
 
+        g.add(init.addLink(expression));
+        g.add(expression.addLink(update));
+        block.node = update;
+
+        MutableNode exit = mutNode(generateName()).add(Label.of("")).add(Shape.POINT);
         CFG lastNode = handleBlockStatements(body, g, block, false);
-        g.add(lastNode.node.addLink(block.node));
+        expression.addLink(expression.linkTo(exit).with(Style.DASHED));
+        block.node = exit;
+        g.add(parent.node.addLink(init));
+        g.add(lastNode.node.addLink(expression));
+
+//        System.out.println(forName.toString());
+//        block.node = mutNode(generateName()).add(Label.of(forName.toString())).add(Shape.HEXAGON);
+//        g.add(parent.node.addLink(block.node));
+
+//        g.add(lastNode.node.addLink(block.node));
+
     }
 
     private void handleConditionDeclaration(CFG block, MutableGraph g, CFG parent) {
